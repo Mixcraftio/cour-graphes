@@ -1,0 +1,45 @@
+
+\documentclass{article}
+\usepackage[a4paper, top=1cm, right=2cm, bottom=1cm, left=2cm]{geometry}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath}
+\usepackage{tikz}
+
+\title{\vspace{-2em}\Huge{\textbf{Chap 6 : Graphes}}\vspace{-1.5em}}
+\author{}
+\date{}
+
+\begin{document}
+    \maketitle
+
+    \section{Introduction aux graphes}
+        \subsection{Vocabulaire}
+        \subsection{Graphes complets}
+        \subsection{Graphes non-orientés et chaînes}
+            \subsubsection{Chaînes}
+            \subsubsection{Chaîne d'Euler}
+
+
+    \section{Graphes orientés et lien avec les matrices}
+        \subsection{Graphes orientés}
+        \subsection{Matrices}
+            \subsubsection{Matrice d'adjacence}
+            \subsubsection{Puissances de matrices}
+
+
+    \section{Pour aller plus loin}
+        \subsection{Chaîne de Markov}
+
+        \begin{tikzpicture}[node distance={15mm}, thick, main/.style = {draw, circle}]
+            \node[main] (1) {1};
+            \node[main] (2) [above right of=1] {2};
+            \node[main] (3) [right of=2] {3};
+            \node[main] (4) [above right of=3] {4};
+            \draw (1) -- (2) -- (3) -- (4);
+        \end{tikzpicture}
+
+
+
+\end{document}
