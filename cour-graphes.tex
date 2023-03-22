@@ -10,10 +10,6 @@
 \usepackage{tikz}
 
 
-\title{\vspace{-2em}\Huge{\textbf{Chap 6 : Graphes}}\vspace{-1.5em}}
-\author{}
-\date{}
-
 %\tgrph{ordre}[taille][rota(senstrigo)]
 \newcommandx{\tgrph}[3][2=2, 3=0]{
 \begin{tikzpicture}[transform shape]
@@ -29,7 +25,7 @@
 \end{tikzpicture}
 }
 
-%\ct{contents}[columns]
+%\ct{elements}[columns]
 \newcommandx{\ct}[2][2=ccc]{
     \begin{center}
         \begin{tabular}{#2}
@@ -37,6 +33,16 @@
         \end{tabular}
     \end{center}
 }
+
+%\db{elements}
+\newcommandx{\db}[1]{
+    \fbox{\parbox{\linewidth}{#1}}
+}
+
+
+\title{\vspace{-2em}\Huge{\textbf{Chap 6 : Graphes}}\vspace{-1.5em}}
+\author{}
+\date{}
 
 \begin{document}
     \maketitle
@@ -47,18 +53,30 @@
         \subsection{Vocabulaire}
             \subsubsection{Graphe non-orienté}
                 Définition:
-                \framebox[\linewidth][l]{Un graphe non-orienté G est un ensemble de sommets reliés par des arêtes.}
-                Exemple:
+                \db{Un graphe non-orienté G est un ensemble de sommets reliés par des arêtes.}
+                \textit{Exemple:}
                 \ct{
                     Sommet & Arête & Graphe G\\
                     \tikz\node[draw,circle](1){1}; & \tikz\draw(0,0)--(1,0); & \tgrph{2}[0.5][90]
                 }
 
+                Définition:
+                \db{
+                    Deux sommets reliés par une arête sont dits adjacents.
+                    Une arête reliant deux sommets est dite incidente à ces deux sommets.
+                    Une arête est une boucle si elle relie un sommet à lui-même.
+                }
+                \textit{Exemple:}
+                \ct{
+                    1 et 2 sont adjacents & incident & boucle\\
+                    \tgrph{2}[0.5][90] & \tgrph{1} & \tikz{\node[draw,circle](1){1};\draw(1)to[out=240,in=300,looseness=5](1);}
+                }
+
 
         \subsection{Graphes complets}
             Définition:
-            \framebox[\linewidth][l]{Un graphe non-orienté est dit complet si tous ses sommets sont adjacents.}
-            Exemple:
+            \db{Un graphe non-orienté est dit complet si tous ses sommets sont adjacents.}
+            \textit{Exemple:}
             \ct{
                 Ordre 5 & Ordre 7 & Ordre 9\\
                 \tgrph{5} & \tgrph{7} & \tgrph{9}
