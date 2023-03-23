@@ -1,6 +1,6 @@
 
-\documentclass{article}
-\usepackage[a4paper, top=1cm, right=2cm, bottom=1cm, left=2cm]{geometry}
+\documentclass[12pt]{article}
+\usepackage[a4paper, top=1cm, right=1.5cm, bottom=1cm, left=1.5cm]{geometry}
 \usepackage[onehalfspacing]{setspace}
 
 \usepackage[utf8]{inputenc}
@@ -8,6 +8,7 @@
 \usepackage{amsmath}
 \usepackage{xargs}
 \usepackage{tikz}
+\usepackage{tabularx, multirow}
 
 
 %\tgrph{ordre}[taille][rota(senstrigo)]
@@ -36,45 +37,67 @@
 
 %\db{elements}
 \newcommandx{\db}[1]{
-    \fbox{\parbox{\linewidth}{#1}}
+    Définition:
+
+    \begin{tabularx}{\linewidth}{|X|}
+        \hline
+        #1\\
+        \hline
+    \end{tabularx}
+}
+
+%\go{ordre}
+\newcommandx{\go}[1]{
+    \begin{tikzpicture}[node distance={15mm}, thick, main/.style = {draw, circle}]
+        \node[main] (1) {1};
+        \ifnum#1=1
+        \else
+            \foreach \x in {2,...,#1}{
+                \node[main] (\x) [right of=\fpeval{\x-1}] {\x};
+                \draw (\fpeval{\x-1}) -- (\x);
+            }
+        \fi
+    \end{tikzpicture}
 }
 
 
-\title{\vspace{-2em}\Huge{\textbf{Chap 6 : Graphes}}\vspace{-1.5em}}
-\author{}
-\date{}
-
 \begin{document}
-    \maketitle
+    \begin{center}\Huge{\textbf{Chap 6 : Graphes}}\end{center}
     \setlength{\parindent}{0cm}
     \bgroup\obeylines
 
     \section{Introduction aux graphes}
         \subsection{Vocabulaire}
             \subsubsection{Graphe non-orienté}
-                Définition:
                 \db{Un graphe non-orienté G est un ensemble de sommets reliés par des arêtes.}
                 \textit{Exemple:}
                 \ct{
                     Sommet & Arête & Graphe G\\
-                    \tikz\node[draw,circle](1){1}; & \tikz\draw(0,0)--(1,0); & \tgrph{2}[0.5][90]
+                    \tikz\node[draw,circle](1){1}; & \tikz\draw(0,1)--(1,1); & \tgrph{2}[0.5][90]
                 }
 
-                Définition:
-                \db{
-                    Deux sommets reliés par une arête sont dits adjacents.
+                \subsubsection{Adjacence et incidence}
+                \db{Deux sommets reliés par une arête sont dits adjacents.
                     Une arête reliant deux sommets est dite incidente à ces deux sommets.
-                    Une arête est une boucle si elle relie un sommet à lui-même.
-                }
+                    Une arête est une boucle si elle relie un sommet à lui-même.}
                 \textit{Exemple:}
                 \ct{
-                    1 et 2 sont adjacents & incident & boucle\\
-                    \tgrph{2}[0.5][90] & \tgrph{1} & \tikz{\node[draw,circle](1){1};\draw(1)to[out=240,in=300,looseness=5](1);}
+                    1 et 2 sont adjacents & L'arête est incidente à 1 & boucle\\
+                    \tgrph{2}[0.5][90] & \tgrph{1}[1][90] & \tikz{\node[draw,circle](1){1};\draw(1)to[out=60,in=120,looseness=5](1);}
+                }
+
+                \subsubsection{Ordre et degré}
+                \db{L'ordre d'un graphe est le nombre total de ses sommets.
+                    Le degré d'un sommet est le nombre d'arêtes incidentes à ce sommet, les arêtes comptant pour deux.
+                    Un graphe est dit simple si au plus une arête relie deux sommets et s'il n'y a pas de boucle sur un sommet.}
+                \textit{Exemple:}
+                \ct{
+                    Graphe d'ordre 3 & 1 est de degré 2 & boucle\\
+                    \go{3} & \tgrph{3}[0.75] & \go{6}
                 }
 
 
         \subsection{Graphes complets}
-            Définition:
             \db{Un graphe non-orienté est dit complet si tous ses sommets sont adjacents.}
             \textit{Exemple:}
             \ct{
@@ -108,4 +131,6 @@
         \end{tikzpicture}
 
     \egroup
+
+    \pagenumbering{}
 \end{document}
