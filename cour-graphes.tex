@@ -13,17 +13,17 @@
 
 %\tgrph{ordre}[taille][rota(senstrigo)]
 \newcommandx{\tgrph}[3][2=2, 3=0]{
-\begin{tikzpicture}[thick, transform shape]
-    \foreach \x in {1,...,#1}{
-        \pgfmathparse{\x*(360/#1)-(360/#1)+90+#3}
-        \node[draw,circle,minimum size=0.5cm] (N-\x) at (\pgfmathresult:#2cm) {\x};
-    }
-    \foreach \x [count=\xi from 1] in {2,...,#1}{
-        \foreach \y in {\x,...,#1}{
-            \draw (N-\xi) -- (N-\y);
+    \begin{tikzpicture}[thick, transform shape]
+        \foreach \x in {1,...,#1}{
+            \pgfmathparse{\x*(360/#1)-(360/#1)+90+#3}
+            \node[draw,circle,minimum size=0.5cm] (N-\x) at (\pgfmathresult:#2cm) {\x};
         }
-    }
-\end{tikzpicture}
+        \foreach \x [count=\xi from 1] in {2,...,#1}{
+            \foreach \y in {\x,...,#1}{
+                \draw (N-\xi) -- (N-\y);
+            }
+        }
+    \end{tikzpicture}
 }
 
 %\ct{elements}[columns]
@@ -35,9 +35,13 @@
     \end{center}
 }
 
-%\db{elements}
-\newcommandx{\db}[1]{
-    Définition:
+%\db{elements}[0=Def,1=Prop]
+\newcommandx{\db}[2][2=0]{
+    \ifnum#2=0
+        Définition:
+    \else
+        Propriété:
+    \fi
 
     \begin{tabularx}{\linewidth}{|X|}
         \hline
@@ -46,27 +50,23 @@
     \end{tabularx}
 }
 
-%\pb{elements}
-\newcommandx{\pb}[1]{
-    Propriété:
-
-    \begin{tabularx}{\linewidth}{|X|}
-        \hline
-        #1\\
-        \hline
-    \end{tabularx}
-}
-
-%\go{ordre}
-\newcommandx{\go}[1]{
+%\sg{ordre}[0=--,1=->,2=loop]
+\newcommandx{\sg}[2][2=0]{
     \begin{tikzpicture}[node distance={15mm}, thick, main/.style = {draw, circle}]
         \node[main] (1) {1};
         \ifnum#1=1
         \else
-            \foreach \x in {2,...,#1}{
-                \node[main] (\x) [right of=\fpeval{\x-1}] {\x};
-                \draw (\fpeval{\x-1}) -- (\x);
-            }
+            \ifcase#2
+                \foreach \x in {2,...,#1}{
+                    \node[main] (\x) [right of=\fpeval{\x-1}] {\x};
+                    \draw (\fpeval{\x-1}) -- (\x);
+                }
+            \or
+                \foreach \x in {2,...,#1}{
+                    \node[main] (\x) [right of=\fpeval{\x-1}] {\x};
+                    \draw (\fpeval{\x-1}) edge[->] (\x);
+                }
+            \fi
         \fi
     \end{tikzpicture}
 }
@@ -77,38 +77,61 @@
     \setlength{\parindent}{0cm}
     \bgroup\obeylines
 
-    \section{Introduction aux graphes}
-        \subsection{Vocabulaire}
+    \section{Vocabulaire}
+        \subsection{Introduction aux graphes}
             \subsubsection{Graphe non-orienté}
                 \db{Un graphe non-orienté G est un ensemble de sommets reliés par des arêtes.}
                 \textit{Exemple:}
                 \ct{
                     Sommet & Arête & Graphe G\\
-                    \tikz[thick]\node[draw,circle](1){1}; & \tikz[thick]\draw(0,1)--(1,1); & \tgrph{2}[0.5][90]
+                    \sg{1} & \tikz[thick]\draw(0,0)--(1,0); & \sg{2}
                 }
-
                 \subsubsection{Adjacence et incidence}
                 \db{Deux sommets reliés par une arête sont dits adjacents.
                     Une arête reliant deux sommets est dite incidente à ces deux sommets.
                     Une arête est une boucle si elle relie un sommet à lui-même.}
                 \textit{Exemple:}
                 \ct{
-                    1 et 2 sont adjacents & L'arête est incidente à 1 & boucle\\
+                    1 et 2 sont adjacents & L'arête est incidente à 1 & Boucle\\
                     \tgrph{2}[0.5][90] & \tgrph{1}[1][90] & \tikz[thick]{\node[draw,circle](1){1};\draw(1)to[out=60,in=120,looseness=5](1);}
                 }
-
                 \subsubsection{Ordre et degré}
                 \db{L'ordre d'un graphe est le nombre total de ses sommets.
-                    Le degré d'un sommet est le nombre d'arêtes incidentes à ce sommet, les arêtes comptant pour deux.
+                    Le degré d'un sommet est le nombre d'arêtes incidentes à ce sommet, les boucles comptant pour deux.
                     Un graphe est dit simple si au plus une arête relie deux sommets et s'il n'y a pas de boucle sur un sommet.}
                 \textit{Exemple:}
                 \ct{
                     Graphe d'ordre 3 & 1 est de degré 2 & Graphe simple d'ordre 4\\
-                    \go{3} & \tgrph{3}[0.75] & \go{4}
+                    \sg{3} & \tgrph{3}[0.75] & \sg{4}
                 }
+                \db{Soit G un graphe simple non-orienté, la somme du degré des sommets de G est égale au double du nombre d'arêtes de G.}[1]
+                \textit{Exemple:}
+                \ct{
+                    La somme du degré des sommets de G vaut : $2 \times Nb_{arêtes}=2 \times 5=10$\\
+                    \sg{6}
+                }[c]
+                Conséquence:
+                Dans un graphe simple non-orienté, le nombre de sommets de degré impair est pair.
 
-                \pb{Soit G un graphe simple non-orienté, la somme du degré des sommets de G est égale au double du nombre d'arêtes de G.}
-
+        \subsection{Graphes orientés}
+            \subsubsection{Définition}
+                \db{Un graphe est orienté lorsque ses arêtes sont définies par une origine et une extrémité.}
+                \textit{Exemple:}
+                \ct{
+                    Graphe simple orienté d'ordre 5. 3 est une origine et 4 est une extrémité\\
+                    \sg{5}[1]
+                }[c]
+            \subsubsection{Arcs}
+                \db{Une arête orientée est appelée un arc.
+                    Une flèche indique le sens dans lequel un arc peut être parcourue.}
+            \subsubsection{Degré entrant/sortant}
+                \db{Le degré entrant d'un sommet est le nombre d'arcs dirigés vers ce sommet.
+                    Le degré sortant est le nombre d'arcs partant de ce sommet.}
+                \textit{Exemple:}
+                \ct{
+                    1 est de degré entrant 0 et de degré sortant 1, 3 est de degré entrant 1 et de degré sortant 1\\
+                    \sg{5}[1]
+                }[c]
 
         \subsection{Graphes complets}
             \db{Un graphe non-orienté est dit complet si tous ses sommets sont adjacents.}
@@ -118,9 +141,9 @@
                 \tgrph{5} & \tgrph{7} & \tgrph{9}
             }
 
-
         \subsection{Chaînes}
             \subsubsection{Chaînes}
+            \db{}
             \subsubsection{Chaîne d'Euler}
 
 
@@ -145,5 +168,5 @@
 
     \egroup
 
-    % \pagenumbering{}
+    % \pagenumbering{ }
 \end{document}
