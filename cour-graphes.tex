@@ -13,7 +13,7 @@
 
 %\tgrph{ordre}[taille][rota(senstrigo)]
 \newcommandx{\tgrph}[3][2=2, 3=0]{
-\begin{tikzpicture}[transform shape]
+\begin{tikzpicture}[thick, transform shape]
     \foreach \x in {1,...,#1}{
         \pgfmathparse{\x*(360/#1)-(360/#1)+90+#3}
         \node[draw,circle,minimum size=0.5cm] (N-\x) at (\pgfmathresult:#2cm) {\x};
@@ -38,6 +38,17 @@
 %\db{elements}
 \newcommandx{\db}[1]{
     Définition:
+
+    \begin{tabularx}{\linewidth}{|X|}
+        \hline
+        #1\\
+        \hline
+    \end{tabularx}
+}
+
+%\pb{elements}
+\newcommandx{\pb}[1]{
+    Propriété:
 
     \begin{tabularx}{\linewidth}{|X|}
         \hline
@@ -73,7 +84,7 @@
                 \textit{Exemple:}
                 \ct{
                     Sommet & Arête & Graphe G\\
-                    \tikz\node[draw,circle](1){1}; & \tikz\draw(0,1)--(1,1); & \tgrph{2}[0.5][90]
+                    \tikz[thick]\node[draw,circle](1){1}; & \tikz[thick]\draw(0,1)--(1,1); & \tgrph{2}[0.5][90]
                 }
 
                 \subsubsection{Adjacence et incidence}
@@ -83,7 +94,7 @@
                 \textit{Exemple:}
                 \ct{
                     1 et 2 sont adjacents & L'arête est incidente à 1 & boucle\\
-                    \tgrph{2}[0.5][90] & \tgrph{1}[1][90] & \tikz{\node[draw,circle](1){1};\draw(1)to[out=60,in=120,looseness=5](1);}
+                    \tgrph{2}[0.5][90] & \tgrph{1}[1][90] & \tikz[thick]{\node[draw,circle](1){1};\draw(1)to[out=60,in=120,looseness=5](1);}
                 }
 
                 \subsubsection{Ordre et degré}
@@ -92,9 +103,11 @@
                     Un graphe est dit simple si au plus une arête relie deux sommets et s'il n'y a pas de boucle sur un sommet.}
                 \textit{Exemple:}
                 \ct{
-                    Graphe d'ordre 3 & 1 est de degré 2 & boucle\\
-                    \go{3} & \tgrph{3}[0.75] & \go{6}
+                    Graphe d'ordre 3 & 1 est de degré 2 & Graphe simple d'ordre 4\\
+                    \go{3} & \tgrph{3}[0.75] & \go{4}
                 }
+
+                \pb{Soit G un graphe simple non-orienté, la somme du degré des sommets de G est égale au double du nombre d'arêtes de G.}
 
 
         \subsection{Graphes complets}
@@ -106,7 +119,7 @@
             }
 
 
-        \subsection{Graphes non-orientés et chaînes}
+        \subsection{Chaînes}
             \subsubsection{Chaînes}
             \subsubsection{Chaîne d'Euler}
 
@@ -132,5 +145,5 @@
 
     \egroup
 
-    \pagenumbering{}
+    % \pagenumbering{}
 \end{document}
