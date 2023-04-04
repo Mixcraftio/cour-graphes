@@ -181,26 +181,26 @@
 
         \subsection{Chaînes}
             \subsubsection{Définition}
-                azd
+                \db{Une chaîne est une suite d'arêtes reliant un sommet à un autre.}
                 Remarque:
                 Un graphe connexe est donc un graphe pour lequel il existe une chaîne passant par tous ses sommets.
             \subsubsection{Longueur d'une chaîne}
-                \db{Le \textbf{nombre d'arêtes} constituants une chaîne est appellé \textbf{longueur} de cette chaîne}
+                \db{Le \textbf{nombre d'arêtes} constituants une chaîne est appellé \textbf{longueur} de cette chaîne.}
                 \textit{Exemple:}
                 \ct{
                     La chaîne 5-1-2-3-4-1-5 est de longueur 6\\
                     \gm[3]
                 }[c]
             \subsubsection{Chaîne simple/élémentaire}
-                \db{Une chaîne est \textbf{simple} si elle ne passe pas deux fois par la même \textbf{arête}
-                    Une chaîne est \textbf{élémentaire} si elle ne passe pas deux fois par le même \textbf{sommet}}
+                \db{Une chaîne est \textbf{simple} si elle ne passe pas deux fois par la même \textbf{arête}.
+                    Une chaîne est \textbf{élémentaire} si elle ne passe pas deux fois par le même \textbf{sommet}.}
                 \textit{Exemple:}
                 \ct{
                     1-2-3-1 est une chaîne simple & La chaîne 1-2-3 est élémentaire\\
                     \tgrph{3}[0.75] & \sg{3}
                 }
             \subsubsection{Chaîne fermée}
-                \db{Une chaîne est dite \textbf{fermée} si le premier et le dernier sommet de la chaîne sont confondus}
+                \db{Une chaîne est dite \textbf{fermée} si le premier et le dernier sommet de la chaîne sont confondus.}
                 \textit{Exemple:}
                 \ct{
                     La chaîne 1-2-3-4-1 est fermée & La chaîne 1-2-3 n'est pas fermée\\
@@ -208,7 +208,7 @@
                     \tgrph{4}[2][45] & \sg{3}
                 }[cc]
             \subsubsection{Cycle}
-                \db{Un \textbf{cycle} est une chaîne \textbf{fermée} qui ne repasse \textbf{pas deux fois par la même arête}}
+                \db{Un \textbf{cycle} est une chaîne \textbf{fermée} qui ne repasse \textbf{pas deux fois par la même arête}.}
                 \textit{Exemple:}
                 \ct{
                     La chaîne 1-2-3-4-1 est un cycle\\
@@ -225,28 +225,28 @@
                 par une chaîne eulerienne  & on peut la tracer sans lever le stylo\\
                 \gm & \gm[1]
             }[cc]
-            Remarque:
-            Une chaîne eulerienne n'est pas nécessairement fermée (ex:l'enveloppe), mais si elle l'est on appelle donc cette chaîne un cycle eulerien.
+            Consequence:
+            Une chaîne eulerienne fermée est appelée un cycle eulerien.
+            Remarques:
+            - Une chaîne eulerienne n'est pas nécessairement fermée (ex:l'enveloppe), mais si elle l'est on appelle donc cette chaîne un cycle eulerien.
+            - Un graphe connexe non-orienté admet une chaîne eulérienne seulement si le nombre de sommets de degré impair vaut 0 ou 2.
+            - Un graphe connexe admet un cycle eulérien si et seulement si tous ses sommets sont de degré pair.
+            - Si le graphe connexe a deux sommets de degré impair, ce sont les extrémités de la chaîne eulérienne.
+            - Un graphe connexe ayant plus de deux sommets de degré impair ne possède pas de chaîne eulérienne.
 
-
-    \section{Graphes orientés et lien avec les matrices}
-        \subsection{Graphes orientés}
-        \subsection{Matrices}
-            \subsubsection{Matrice d'adjacence}
-            \subsubsection{Puissances de matrices}
-
-
-    \section{Pour aller plus loin}
-        \subsection{Chaîne de Markov}
-
-        \begin{tikzpicture}[node distance={15mm}, thick, main/.style = {draw, circle}]
-            \node[main] (1) {1};
-            \node[main] (2) [above right of=1] {2};
-            \node[main] (3) [below right of=2] {3};
-            \node[main] (4) [below left of=3] {4};
-            \node[main] (5) [left of=4]{5};
-            \draw (1) -- (2);
-        \end{tikzpicture}
+    \subsection{Matrice d'adjacence}
+        \db{La matrice adjacente à un graphe d'ordre n est la matrice carré de taille n où $a_{ij}$ est la nombre d'arêtes  reliant le point i au point j.}
+        \textit{Exemple:}
+        \ct{
+            M est la matrice adjacente au graphe qui lui est apposé\\
+            \gm[3] & $M=\begin{pmatrix}
+                0 & 1 & 0 & 1 & 1\\
+                1 & 0 & 1 & 0 & 0\\
+                0 & 1 & 0 & 1 & 0\\
+                1 & 0 & 1 & 0 & 0\\
+                1 & 0 & 0 & 0 & 0
+            \end{pmatrix}$
+        }[cc]
 
     \egroup
 \end{document}
