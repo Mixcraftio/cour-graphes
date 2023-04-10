@@ -1,0 +1,125 @@
+
+\documentclass[12pt]{article}
+\usepackage[a4paper, top=1cm, right=1.5cm, bottom=1cm, left=1.5cm]{geometry}
+\usepackage[onehalfspacing]{setspace}
+\usepackage{nopageno}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath}
+\usepackage{xargs}
+\usepackage{tikz}
+\usepackage{tabularx, multirow}
+
+
+%\tgrph{ordre}[taille][rota(senstrigo)]
+\newcommandx{\tgrph}[3][2=2, 3=0]{
+    \begin{tikzpicture}[thick, transform shape]
+        \foreach \x in {1,...,#1}{
+            \pgfmathparse{(\x-1)*(360/#1)+90+#3}
+            \node[draw,circle,minimum size=0.5cm] (N-\x) at (\pgfmathresult:#2cm) {\x};
+        }
+        \foreach \x [count=\xi from 1] in {2,...,#1}{
+            \foreach \y in {\x,...,#1}{
+                \draw (N-\xi) -- (N-\y);
+            }
+        }
+    \end{tikzpicture}
+}
+
+%\ct{elements}[columns]
+\newcommandx{\ct}[2][2=ccc]{
+    \begin{center}
+        \begin{tabular}{#2}
+            #1
+        \end{tabular}
+    \end{center}
+}
+
+%\db{elements}[0=Def,1=Prop]
+\newcommandx{\db}[2][2=0]{
+    \ifnum#2=0
+        Définition:
+    \else
+        Propriété:
+    \fi
+
+    \begin{tabularx}{\linewidth}{|X|}
+        \hline
+        #1\\
+        \hline
+    \end{tabularx}
+}
+
+%\sg{ordre}[0=--,1=->]
+\newcommandx{\sg}[2][2=0]{
+    \begin{tikzpicture}[node distance={15mm}, thick, main/.style = {draw, circle}]
+        \node[main] (1) {1};
+        \ifnum#1=1
+        \else
+            \ifcase#2
+                \foreach \x in {2,...,#1}{
+                    \node[main] (\x) [right of=\fpeval{\x-1}] {\x};
+                    \draw (\fpeval{\x-1}) -- (\x);
+                }
+            \or
+                \foreach \x in {2,...,#1}{
+                    \node[main] (\x) [right of=\fpeval{\x-1}] {\x};
+                    \draw (\fpeval{\x-1}) edge[->] (\x);
+                }
+            \fi
+        \fi
+    \end{tikzpicture}
+}
+
+%\gm{0=--,1=->}
+\newcommandx{\gm}[1][1=0]{
+    \begin{tikzpicture}[node distance={20mm}, thick, main/.style = {draw, circle}]
+        \node[main] (1) {1};
+        \node[main] (2) [above right of=1] {2};
+        \node[main] (3) [below right of=2] {3};
+        \node[main] (4) [below of=3] {4};
+        \node (10) [above left of=4] {};
+        \node[main] (5) [below left of=10] {5};
+        \ifcase#1
+            \draw (5) -- (3) -- (1) -- (2) -- (3) -- (4) -- (1) -- (5) -- (4);
+        \or
+            \draw (5) edge[->] node[above, near start] {1} (3)
+                  (3) edge[->] node[above] {2} (1)
+                  (1) edge[->] node[above] {3} (2)
+                  (2) edge[->] node[above] {4} (3)
+                  (3) edge[->] node[right] {5} (4)
+                  (4) edge[->] node[above, near start] {6} (1)
+                  (1) edge[->] node[left] {7} (5)
+                  (5) edge[->] node[below] {8} (4);
+        \or
+            \draw (5) -- (3)
+                  (4) -- (1) -- (2);
+        \or
+            \draw (1) -- (2) -- (3) -- (4) -- (1) -- (5);
+        \fi
+    \end{tikzpicture}
+}
+
+
+\begin{document}
+    \begin{center}\Huge{\textbf{Chap 6 : Graphes}}\end{center}
+    \setlength{\parindent}{0cm}
+    \bgroup\obeylines
+
+    \begin{tikzpicture}[node distance={20mm}, thick, main/.style = {draw, circle}]
+        \node[main] (1) {G};
+        \node[main] (2) [above right of=1] {R};
+        \node[main] (3) [below right of=2] {Y};
+        \node[main] (4) [right of=3] {I};
+        \node[main] (5) [below of=3] {L};
+        \node[main] (6) [above of=4] {F};
+        \node[main] (7) [left of=6] {O};
+        \draw (1) -- (2) -- (3) -- (4) -- (5)
+              (4) -- (2)
+              (3) -- (7) -- (6) -- (5)
+              (5) -- (2);
+    \end{tikzpicture}
+
+    \egroup
+\end{document}
